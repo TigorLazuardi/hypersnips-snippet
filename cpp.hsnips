@@ -1,0 +1,97 @@
+snippet cout "sends value to cout" b
+std::cout << $1${2: << std::endl};
+endsnippet
+snippet cin "insert value from console to variable" b
+std::cin >> $0;
+endsnippet
+snippet inc< "#include <lib>" b
+`` rv = `#include <$1>` ``
+endsnippet
+snippet inc" "#include ''file''" b
+`` rv = `#include "$1"` ``
+endsnippet
+snippet `^\s*inc(["<])` "include statement" A
+``
+const isBracket = !!~m[1].indexOf('<')
+rv = `#include ${isBracket ? '<' : '"'}$1${isBracket ? '>' : '"'}`
+``
+endsnippet
+
+snippet `^\s*func(\d)` "function declaration" A
+``
+const argNumber = Number(m[1])
+
+const base = []
+base.push(`\${1:void} \${2:function_name}(`)
+for (let i = 0, j = 0; i < argNumber * 2; i += 2, j++) {
+    const indexType = i + 3
+    const varIndex = indexType + 1
+    const type = `\${${indexType}:type${j + 1}}`
+    const varName = `\${${varIndex}:arg${j + 1}}`
+    args.push(`${type} ${varName}`) 
+}
+base.push(args.join(', '))
+base.push(`) {
+  $0
+}`)
+rv = base.join('')
+``
+endsnippet
+
+snippet `^\s*funcc(\d)` "function declaration with docs" A
+``
+const argNumber = Number(m[1])
+
+const base = []
+base.push('${1:/**\n')
+base.push(' * ${2:documentation}\n')
+base.push(' * @returns ${3:void}${999: - return description}\n')
+base.push(' */\n')
+base.push('}${3:void} ${4:function_name}(')
+
+const args = []
+for (let i = 0, j = 0; i < argNumber * 2; i += 2, j++) {
+    const indexType = i + 5
+    const varIndex = indexType + 1
+    const insertIndex = j + 2
+    const descIndex = indexType + argNumber * 2 + j
+    const type = `\${${indexType}:type${j + 1}}`
+    const varName = `\${${varIndex}:arg${j + 1}}`
+    base.splice(insertIndex, 0, ` * @param ${varName} \${${descIndex}:description}\n`)
+    args.push(`${type} ${varName}`) 
+}
+base.push(args.join(', '))
+base.push(`) {
+  $0
+}`)
+rv = base.join('')
+``
+endsnippet
+
+snippet `^\s*hfuncc(\d)` "function declaration"
+``
+const argNumber = Number(m[1])
+
+const base = []
+base.push(`\${1:/**\n`)
+base.push(` * \${2:documentation}\n`)
+base.push(` * @returns \${3:void}\${${999}: - return description}\n`)
+base.push(` */\n`)
+base.push(`}\${3:void} \${4:function_name}(`)
+
+const args = []
+for (let i = 0, j = 0; i < argNumber * 2; i += 2, j++) {
+    const indexType = i + 5
+    const varIndex = indexType + 1
+    const insertIndex = j + 2
+    const descIndex = indexType + argNumber * 2 + j
+    const type = `\${${indexType}:type${j + 1}}`
+    const varName = `\${${varIndex}:arg${j + 1}}`
+    base.splice(insertIndex, 0, ` * @param ${varName} \${${descIndex}:description}\n`)
+    args.push(`${type} ${varName}`) 
+}
+base.push(args.join(', '))
+base.push(`);`)
+rv = base.join('')
+``
+endsnippet

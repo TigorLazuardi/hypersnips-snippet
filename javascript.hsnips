@@ -1,0 +1,41 @@
+snippet `^\s*func(\d)` "function declaration" A
+``
+const argNumber = Number(m[1])
+
+const base = []
+base.push(`function \${1:function_name}(`)
+const args = []
+for (let i = 0, j = 0; i < argNumber * 2; i += 2, j++) {
+    const indexType = i + 2
+    const varIndex = indexType + 1
+    const varName = `\${${varIndex}:arg${j + 1}}`
+    args.push(`${varName}`) 
+}
+base.push(args.join(', '))
+base.push(`) {
+  $0
+}`)
+rv = base.join('')
+``
+endsnippet
+
+snippet `^\s*afunc(\d)` "arrow function declaration" A
+``
+const argNumber = Number(m[1])
+
+const base = []
+base.push(`const \${1:name} = (`)
+const args = []
+for (let i = 0, j = 0; i < argNumber * 2; i += 2, j++) {
+    const indexType = i + 2
+    const varIndex = indexType + 1
+    const varName = `\${${varIndex}:arg${j + 1}}`
+    args.push(`${varName}`) 
+}
+base.push(args.join(', '))
+base.push(`) => \${999:{
+  $0
+}}`)
+rv = base.join('')
+``
+endsnippet
