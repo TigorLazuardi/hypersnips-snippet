@@ -23,6 +23,7 @@ const argNumber = Number(m[1])
 
 const base = []
 base.push(`\${1:void} \${2:function_name}(`)
+const args = []
 for (let i = 0, j = 0; i < argNumber * 2; i += 2, j++) {
     const indexType = i + 3
     const varIndex = indexType + 1

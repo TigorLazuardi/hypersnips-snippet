@@ -1,3 +1,63 @@
+snippet mde "module default exports" b
+module.exports = $0
+endsnippet
+
+snippet me "exports.variable = variable" b
+exports.$1 = ${2:$1}
+endsnippet
+
+snippet req "module require" b
+const ``
+const mod = t[0].split('/').pop().split('.')[0]|| "";
+rv = mod.replace(/([-_\.\s]+\w)/g, g => g[1].toUpperCase())
+`` = require('$1')
+endsnippet
+
+snippet reqcc "module require camel case" b
+const ``
+const mod = t[0].split('/').pop().split('.')[0]|| "";
+const val = mod.replace(/([-_\.\s]+\w)/g, g => g[1].toUpperCase())
+rv = val.charAt(0).toLowerCase() + val.slice(1);
+`` = require('$1')
+endsnippet
+
+snippet reqpc "module require pascal case" b
+const `` 
+const mod = t[0].split('/').pop().split('.')[0] || "";
+const val = mod.replace(/([-_\.\s]+\w)/g, g => g[1].toUpperCase())
+rv = val.charAt(0).toUpperCase() + val.slice(1);
+`` = require('$1')
+endsnippet
+
+snippet reqdes "module require destructure" b
+const { $0 } = require('$1')
+endsnippet
+
+snippet `^\s*class(\d)` "class declaration" A
+``
+const argNumber = Number(m[1])
+const base = []
+base.push(`class \${1:class_name} {
+\tconstructor(`)
+base.push(`) {\n`)
+base.push(`\t\t$0
+\t}
+}`)
+
+const args = []
+for (let i = 0, j = 0; i < argNumber * 2; i += 2, j++) {
+  const indexType = i + 2
+  const varIndex = indexType + 1
+  const varName = `\${${varIndex}:arg${j + 1}}`
+  args.push(`${varName}`) 
+  base.splice(j+2, 0, `\t\tthis._${varName} = ${varName}\n`)
+}
+
+base.splice(1, 0, args.join(', '))
+rv = base.join('')
+``
+endsnippet
+
 snippet `^\s*func(\d)` "function declaration" A
 ``
 const argNumber = Number(m[1])
@@ -36,6 +96,122 @@ base.push(args.join(', '))
 base.push(`) => \${999:{
   $0
 }}`)
+rv = base.join('')
+``
+endsnippet
+
+snippet `^\s*funcc(\d)` "function declaration with docs" A
+``
+const argNumber = Number(m[1])
+
+const base = []
+base.push('/**\n')
+base.push(' * ${999:documentation}\n')
+base.push(' * @returns {${997:void}} ${998:return description}\n')
+base.push(' */\n')
+base.push('function ${1:function_name}(')
+
+const args = []
+for (let i = 0, j = 0; i < argNumber * 2; i += 2, j++) {
+    const indexType = i + 2
+    const varIndex = indexType + 1
+    const insertIndex = j + 2
+    const descIndex = indexType + argNumber * 2 + j
+    const varName = `\${${varIndex}:arg${j + 1}}`
+    base.splice(insertIndex, 0, ` * @param {\${${indexType}:*}} ${varName} \${${descIndex}:description}\n`)
+    args.push(`${varName}`) 
+}
+base.push(args.join(', '))
+base.push(`) {
+  $0
+}`)
+rv = base.join('')
+``
+endsnippet
+
+snippet `^\s*edfuncc(\d)` "module export function declaration with docs" A
+``
+const argNumber = Number(m[1])
+
+const base = []
+base.push('/**\n')
+base.push(' * ${999:documentation}\n')
+base.push(' * @returns {${997:void}} ${998:return description}\n')
+base.push(' */\n')
+base.push('${1:module.exports = }function ${2:function_name}(')
+
+const args = []
+for (let i = 0, j = 0; i < argNumber * 2; i += 2, j++) {
+    const indexType = i + 3
+    const varIndex = indexType + 1
+    const insertIndex = j + 2
+    const descIndex = indexType + argNumber * 2 + j
+    const varName = `\${${varIndex}:arg${j + 1}}`
+    base.splice(insertIndex, 0, ` * @param {\${${indexType}:*}} ${varName} \${${descIndex}:description}\n`)
+    args.push(`${varName}`) 
+}
+base.push(args.join(', '))
+base.push(`) {
+  $0
+}`)
+rv = base.join('')
+``
+endsnippet
+
+snippet `^\s*afuncc(\d)` "arrow function declaration with docs" A
+``
+const argNumber = Number(m[1])
+
+const base = []
+base.push('/**\n')
+base.push(' * ${999:documentation}\n')
+base.push(' * @returns {${997:void}} ${998:return description}\n')
+base.push(' */\n')
+base.push('const ${1:name} = (')
+
+const args = []
+for (let i = 0, j = 0; i < argNumber * 2; i += 2, j++) {
+    const indexType = i + 2
+    const varIndex = indexType + 1
+    const insertIndex = j + 2
+    const descIndex = indexType + argNumber * 2 + j
+    const varName = `\${${varIndex}:arg${j + 1}}`
+    base.splice(insertIndex, 0, ` * @param {\${${indexType}:*}} ${varName} \${${descIndex}:description}\n`)
+    args.push(`${varName}`) 
+}
+base.push(args.join(', '))
+base.push(`) => {
+  $0
+}`)
+rv = base.join('')
+``
+endsnippet
+
+snippet `^\s*afuncc(\d)` "arrow function declaration with docs" A
+``
+const argNumber = Number(m[1])
+
+const base = []
+base.push('/**\n')
+base.push(' * ${999:documentation}\n')
+base.push(' * @returns {${997:void}} ${998:return description}\n')
+base.push(' */\n')
+base.push('const ${1:name} = (')
+
+const args = []
+for (let i = 0, j = 0; i < argNumber * 2; i += 2, j++) {
+    const indexType = i + 2
+    const varIndex = indexType + 1
+    const insertIndex = j + 2
+    const descIndex = indexType + argNumber * 2 + j
+    const varName = `\${${varIndex}:arg${j + 1}}`
+    base.splice(insertIndex, 0, ` * @param {\${${indexType}:*}} ${varName} \${${descIndex}:description}\n`)
+    args.push(`${varName}`) 
+}
+base.push(args.join(', '))
+base.push(`) => {
+  $0
+}`)
 rv = base.join('')
 ``
 endsnippet
