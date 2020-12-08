@@ -57,7 +57,7 @@ $HOME/.config/Code/User/hsnips
 | Line Begin | reqcc     | Creates `require` statement, enforcing camelcase on variable creation                                              |             |
 | Line Begin | reqpc     | Creates `require` statement, enforcing pascal case on variable creation                                            |             |
 | Line Begin | reqdes    | Creates `require` statement in destructure manner                                                                  |             |
-| Regex      | class(\d) | Class declaration with `\d` number of arguments                                                                    | Empty line  |
+| Regex      | class\d   | Class declaration with `\d` number of arguments                                                                    | Empty line  |
 
 ## C++
 
@@ -69,3 +69,15 @@ $HOME/.config/Code/User/hsnips
 | Regex      | func\d       | creates function declaration with `\d` number of arguments                      | Empty line  |
 | Regex      | funcc\d      | creates function declaration with doc comments and `\d` number of arguments     | Empty line  |
 | Regex      | hfuncc\d     | creates function prototype with doc comments and `\d` number of arguments       | Empty line  |
+
+## Go
+
+| type       | trigger | description                                                                | restriction |
+| ---------- | ------- | -------------------------------------------------------------------------- | :---------: |
+| Regex      | func\d  | Creates function declaration block with `\d` number of arguments           | Empty line  |
+| Line Begin | struct  | create struct declaration with comments                                    |             |
+| Regex      | meth\d  | Creates method declaration block with `\d` number of arguments             | Empty line  |
+| Regex      | msi\d   | expands to `map[string]interface{}{}` with `\d` number of key-value inside |             |
+| Regex      | logr\de | logrus error with fields with `\d` number of key value                     | Empty line  |
+| Regex      | logr\di | logrus info with fields with `\d` number of key value                      | Empty line  |
+| Regex      | logr\df | logrus non-exit fatal field with fields with `\d` number of key value      | Empty line  |

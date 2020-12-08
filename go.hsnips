@@ -26,7 +26,7 @@ type ${1:struct_name} struct {
 }
 endsnippet
 
-snippet `meth(\d)` "Create method declaration" A
+snippet `^\s*meth(\d)` "Create method declaration" A
 // ${2:method_name} ${999:method}
 func (``
 rv = t[0].length 
@@ -52,12 +52,6 @@ rv = args.join(', ')
 }
 endsnippet
 
-snippet forr "For range" b
-for $1 := range $2 {
-    $0
-}
-endsnippet
-
 snippet `msi(\d)` "map[string]interface{}" A
 ``
 const base = [
@@ -72,6 +66,60 @@ if (!argNumber) {
         base.splice(j, 0, `\n\t"\${${i + 1}:key}": \${${i + 2}:value},`) 
     }
     base[base.length - 1] = "\n}"
+}
+rv = base.join('')
+``
+endsnippet
+
+snippet `^\s*logr(\d)e` "logrus error with fields" A
+``
+const base = [
+    "logrus.WithFields(map[string]interface{}{",
+    "\n}).Error(${999:err})"
+]
+let argNumber = parseInt(m[1])
+if (!argNumber) {
+    base.splice(1, 0, '\n\t$0')
+} else {
+    for (let i = 0, j = 1; i < argNumber * 2; i+= 2, j++) {
+        base.splice(j, 0, `\n\t"\${${i + 1}:key}": \${${i + 2}:value},`) 
+    }
+}
+rv = base.join('')
+``
+endsnippet
+
+snippet `^\s*logr(\d)i` "logrus info with fields" A
+``
+const base = [
+    "logrus.WithFields(map[string]interface{}{",
+    "\n}).Info(${999:msg})"
+]
+let argNumber = parseInt(m[1])
+if (!argNumber) {
+    base.splice(1, 0, '\n\t$0')
+} else {
+    for (let i = 0, j = 1; i < argNumber * 2; i+= 2, j++) {
+        base.splice(j, 0, `\n\t"\${${i + 1}:key}": \${${i + 2}:value},`) 
+    }
+}
+rv = base.join('')
+``
+endsnippet
+
+snippet `^\s*logr(\d)f` "logrus non-exit fatal with fields" A
+``
+const base = [
+    "logrus.WithFields(map[string]interface{}{",
+    "\n}).Log(logrus.FatalLevel, ${999:msg})"
+]
+let argNumber = parseInt(m[1])
+if (!argNumber) {
+    base.splice(1, 0, '\n\t$0')
+} else {
+    for (let i = 0, j = 1; i < argNumber * 2; i+= 2, j++) {
+        base.splice(j, 0, `\n\t"\${${i + 1}:key}": \${${i + 2}:value},`) 
+    }
 }
 rv = base.join('')
 ``
