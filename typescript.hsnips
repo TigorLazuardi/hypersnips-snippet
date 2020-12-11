@@ -1,0 +1,26 @@
+snippet imp "import statement" b
+import ``
+const mod = t[0].split('/').pop().split('.')[0]|| "";
+rv = mod.replace(/([-_\.\s]+\w)/g, g => g[1].toUpperCase())
+`` from '$1'
+endsnippet
+
+snippet impcc "import statement camel case" b
+import ``
+const mod = t[0].split('/').pop().split('.')[0]|| "";
+const val = mod.replace(/([-_\.\s]+\w)/g, g => g[1].toUpperCase())
+rv = val.charAt(0).toLowerCase() + val.slice(1);
+`` from '$1'
+endsnippet
+
+snippet imppc "import statement pascal case" b
+import `` 
+const mod = t[0].split('/').pop().split('.')[0] || "";
+const val = mod.replace(/([-_\.\s]+\w)/g, g => g[1].toUpperCase())
+rv = val.charAt(0).toUpperCase() + val.slice(1);
+`` from '$1'
+endsnippet
+
+snippet impdes "import statement destructure" b
+import { $0 } from '$1'
+endsnippet
