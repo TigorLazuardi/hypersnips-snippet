@@ -1,0 +1,126 @@
+snippet `^\s*func(\d)` "Create function declaration" A
+// ${1:function_name} ${999:function}
+func ${1:function_name}(``
+const args = []
+const argNumber = parseInt(m[1])
+
+for (let i = 0, j = 0; i < argNumber * 2; i += 2, j++) {
+    const placeHolderTab = i + 3
+    const argIndex = j + 1 
+    const varName = `\${${placeHolderTab + 1}:arg${argIndex}}`
+    const varType = `\${${placeHolderTab + 2}:T}`
+    args.push(`${varName} ${varType}`)
+}
+
+rv = args.join(', ')
+``) $2 {
+    $0
+    return
+}
+endsnippet
+
+snippet struct "Create struct declaration" b
+// ${1:struct_name} ${999:struct}
+type ${1:struct_name} struct {
+    $0
+}
+endsnippet
+
+snippet `^\s*meth(\d)` "Create method declaration" A
+// ${2:method_name} ${999:method}
+func (``
+rv = t[0].length 
+    ? t[0].split(/(?=[A-Z])/).map(e => e[0] === '*'
+        ? e[1]?.toLowerCase() || ""
+        : e[0].toLowerCase()).join('')
+    : "" `` $1) ${2:method_name}(``
+const args = []
+const argNumber = parseInt(m[1])
+
+for (let i = 0, j = 0; i < argNumber * 2; i += 2, j++) {
+    const placeHolderTab = i + 4
+    const argIndex = j + 1 
+    const varName = `\${${placeHolderTab + 1}:arg${argIndex}}`
+    const varType = `\${${placeHolderTab + 2}:T}`
+    args.push(`${varName} ${varType}`)
+}
+
+rv = args.join(', ')
+``) $3 {
+    $0
+    return
+}
+endsnippet
+
+snippet `msi(\d)` "map[string]interface{}" A
+``
+const base = [
+    "map[string]interface{}{",
+    "}"
+]
+const argNumber = parseInt(m[1])
+if (!argNumber) {
+    base.splice(1, 0, '$0')
+} else {
+    for (let i = 0, j = 1; i < argNumber * 2; i+= 2, j++) {
+        base.splice(j, 0, `\n\t"\${${i + 1}:key}": \${${i + 2}:value},`) 
+    }
+    base[base.length - 1] = "\n}"
+}
+rv = base.join('')
+``
+endsnippet
+
+snippet `^\s*logr(\d)e` "logrus error with fields" A
+``
+const base = [
+    "logrus.WithFields(map[string]interface{}{",
+    "\n}).Error(${999:err})"
+]
+let argNumber = parseInt(m[1])
+if (!argNumber) {
+    base.splice(1, 0, '\n\t$0')
+} else {
+    for (let i = 0, j = 1; i < argNumber * 2; i+= 2, j++) {
+        base.splice(j, 0, `\n\t"\${${i + 1}:key}": \${${i + 2}:value},`) 
+    }
+}
+rv = base.join('')
+``
+endsnippet
+
+snippet `^\s*logr(\d)i` "logrus info with fields" A
+``
+const base = [
+    "logrus.WithFields(map[string]interface{}{",
+    "\n}).Info(${999:msg})"
+]
+let argNumber = parseInt(m[1])
+if (!argNumber) {
+    base.splice(1, 0, '\n\t$0')
+} else {
+    for (let i = 0, j = 1; i < argNumber * 2; i+= 2, j++) {
+        base.splice(j, 0, `\n\t"\${${i + 1}:key}": \${${i + 2}:value},`) 
+    }
+}
+rv = base.join('')
+``
+endsnippet
+
+snippet `^\s*logr(\d)f` "logrus non-exit fatal with fields" A
+``
+const base = [
+    "logrus.WithFields(map[string]interface{}{",
+    "\n}).Log(logrus.FatalLevel, ${999:msg})"
+]
+let argNumber = parseInt(m[1])
+if (!argNumber) {
+    base.splice(1, 0, '\n\t$0')
+} else {
+    for (let i = 0, j = 1; i < argNumber * 2; i+= 2, j++) {
+        base.splice(j, 0, `\n\t"\${${i + 1}:key}": \${${i + 2}:value},`) 
+    }
+}
+rv = base.join('')
+``
+endsnippet
