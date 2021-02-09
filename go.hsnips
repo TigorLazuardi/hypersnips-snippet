@@ -71,7 +71,7 @@ rv = base.join('')
 ``
 endsnippet
 
-snippet `^\s*logr(\d)e` "logrus error with fields" A
+snippet `^\s*log(\d)e` "logrus error with fields" A
 ``
 const base = [
     "logrus.WithFields(map[string]interface{}{",
@@ -89,7 +89,7 @@ rv = base.join('')
 ``
 endsnippet
 
-snippet `^\s*logr(\d)i` "logrus info with fields" A
+snippet `^\s*log(\d)i` "logrus info with fields" A
 ``
 const base = [
     "logrus.WithFields(map[string]interface{}{",
@@ -107,7 +107,25 @@ rv = base.join('')
 ``
 endsnippet
 
-snippet `^\s*logr(\d)f` "logrus non-exit fatal with fields" A
+snippet `^\s*log(\d)w` "logrus info with fields" A
+``
+const base = [
+    "logrus.WithFields(map[string]interface{}{",
+    "\n}).Warn(${999:msg})"
+]
+let argNumber = parseInt(m[1])
+if (!argNumber) {
+    base.splice(1, 0, '\n\t$0')
+} else {
+    for (let i = 0, j = 1; i < argNumber * 2; i+= 2, j++) {
+        base.splice(j, 0, `\n\t"\${${i + 1}:key}": \${${i + 2}:value},`) 
+    }
+}
+rv = base.join('')
+``
+endsnippet
+
+snippet `^\s*log(\d)f` "logrus non-exit fatal with fields" A
 ``
 const base = [
     "logrus.WithFields(map[string]interface{}{",
